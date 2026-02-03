@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard AI - Email Security Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>🛡️ PhishGuard AI</h1>
+                <p class="subtitle">AI-Powered Phishing Detection & Threat Intelligence</p>
+            </div>
+        </header>
+
+        <div class="privacy-notice">
+            <h3>⚠️ Privacy Notice</h3>
+            <p>This tool is for educational purposes only.</p>
+            <ul>
+                <li><strong>DO NOT</strong> paste emails with personal info (SSN, credit cards, passwords)</li>
+                <li><strong>DO NOT</strong> paste confidential business data</li>
+            </ul>
+        </div>
+
+        <div class="analysis-section">
+            <h2>📧 Analyze Email Content</h2>
+            
+            <form method="POST" action="/analyze" class="analysis-form">
+                <div class="form-group">
+                    <label for="email_text">Paste Email Content Below:</label>
+                    <textarea 
+                        id="email_text" 
+                        name="email_text" 
+                        rows="12" 
+                        placeholder="Paste the complete email here..."
+                        required
+                    ></textarea>
+                </div>
+                
+                <button type="submit" class="btn-primary">🔍 Analyze Email</button>
+            </form>
+        </div>
+
+        {% if results %}
+        <div class="results-section">
+            <h2>📊 Analysis Results</h2>
+            
+            <div class="risk-score-container">
+                <div class="risk-score {{ results.risk_level|lower }}">
+                    <div class="score-circle">
+                        <span class="score-number">{{ results.risk_score }}</span>
+                        <span class="score-label">/100</span>
+                    </div>
+                    <div class="risk-label">
+                        {% if results.risk_level == 'MALICIOUS' %}
+                            🚨 MALICIOUS
+                        {% elif results.risk_level == 'SUSPICIOUS' %}
+                            ⚠️ SUSPICIOUS
+                        {% else %}
+                            ✅ SAFE
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendation">
+                <h3>💡 Recommendation</h3>
+                <p>{{ results.recommendation }}</p>
+            </div>
+
+            {% if results.red_flags %}
+            <div class="red-flags">
+                <h3>🚩 Red Flags Detected ({{ results.red_flags|length }})</h3>
+                <ul>
+                    {% for flag in results.red_flags %}
+                        <li>{{ flag }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if results.urls_found %}
+            <div class="urls-section">
+                <h3>🔗 URLs Found ({{ results.urls_found|length }})</h3>
+                <ul class="url-list">
+                    {% for url in results.urls_found %}
+                        <li><code>{{ url }}</code></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if results.ai_explanation %}
+            <div class="ai-analysis">
+                <h3>🧠 AI Security Analysis</h3>
+                <div class="ai-explanation">
+                    {{ results.ai_explanation }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if recent_analyses %}
+        <div class="history-section">
+            <h2>📈 Recent Analysis History</h2>
+            
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Risk Score</th>
+                        <th>Verdict</th>
+                        <th>Red Flags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for analysis in recent_analyses %}
+                    <tr>
+                        <td>{{ analysis.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td><strong>{{ analysis.risk_score }}</strong></td>
+                        <td>
+                            <span class="badge {{ analysis.risk_level|lower }}">
+                                {{ analysis.risk_level }}
+                            </span>
+                        </td>
+                        <td>{{ analysis.red_flags_count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <footer class="footer">
+            <p>Built by Tejaswi Thapa | Cybersecurity Portfolio Project</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+# Core Web Framework
+flask==3.0.0              # Web framework for building our application
+
+# API Requests
+requests==2.31.0          # For making HTTP requests to threat intel APIs
+
+# Environment Variables (Security)
+python-dotenv==1.0.0      # Loads API keys from .env file securely
+
+# AI/LLM Integration (Choose ONE based on which API you get)
+openai==1.12.0           # For OpenAI GPT-4 integration
+# anthropic==0.18.0      # For Claude API (uncomment if using Claude instead)
+
+# Data Processing
+validators==0.22.0        # Validates emails, URLs, IPs
+tldextract==5.1.1        # Extracts domain info from URLs
+
+# Database
+flask-sqlalchemy==3.1.1   # Database ORM for storing analysis history
+
+# Security & Rate Limiting
+flask-limiter==3.5.0     # Prevents API abuse with rate limiting

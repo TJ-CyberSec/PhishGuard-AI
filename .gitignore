@@ -1,0 +1,42 @@
+# ===================================
+# SECURITY: Never commit these files!
+# ===================================
+
+# Environment variables (contains API keys!)
+.env
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Trained models (can be large)
+ml_model/*.pkl
+ml_model/*.joblib
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test data with real emails
+data/real_emails/
